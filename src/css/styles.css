@@ -1,0 +1,25 @@
+.header-logo {
+    width: 200px;
+    height: auto;
+}
+.admin-header{
+    background-color: #576F72;
+}
+
+.header-rounded-circle {
+    width: 100px;
+}
+.admin-side-bar{
+    width: 220px;
+}
+.sidebar-item-bg{
+    background-color: #576F72;
+}
+.side-bar-item-txt{
+    color: white;
+    font-weight: 700;
+}
+.side-bar-item-txt-none{
+    color : #576F72;
+    font-weight:500;
+}
