@@ -109,7 +109,7 @@ const AdminSignin = () => {
                 Forgot Password?
               </a>
               <a
-                href="/admin-signup"
+                href="/admin/signup"
                 // onClick={handleSignUp}
                 className="login-register"
               >

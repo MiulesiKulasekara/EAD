@@ -1,8 +1,6 @@
-import { Button, Nav, NavItem, NavbarBrand } from "reactstrap";
+import { Nav, NavItem, NavbarBrand } from "reactstrap";
 import { useState, useEffect } from "react";
-//import probg from "../assets/images/bg/download.jpg";
-import logo from "../assets/images/logos/colorLogo/1.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 // const navigation = [
 //   {
@@ -18,6 +16,8 @@ import { Link, useLocation } from "react-router-dom";
 // ];
 
 const Sidebar = () => {
+  const { id } = useParams();
+
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
@@ -36,13 +36,12 @@ const Sidebar = () => {
         setActiveItem("dashboard");
       }
       if (
-        location.pathname === "/product"
-        // ||
-        // location.pathname === "/dashboard/add-employee" ||
-        // location.pathname === `/dashboard/view-employee/${id}` ||
-        // location.pathname === `/dashboard/update-employee/${id}`
+        location.pathname === "/admin/users" ||
+        location.pathname === "/admin/users/add" ||
+        location.pathname === "/admin/users/roles" ||
+        location.pathname === `/admin/users/update//${id}`
       ) {
-        setActiveItem("product");
+        setActiveItem("users");
       }
     };
     getActiveItem(location);
@@ -61,9 +60,11 @@ const Sidebar = () => {
             }`}
           >
             <Link
-              to={"/"}
+              to={"/admin"}
               className={`cursor-pointer p-2 d-flex align-items-center text-decoration-none ${
-                activeItem === "dashboard" ? "side-bar-item-txt" : "side-bar-item-txt-none"
+                activeItem === "dashboard"
+                  ? "side-bar-item-txt"
+                  : "side-bar-item-txt-none"
               }`}
               onClick={() => handleItemClick("dashboard")}
             >
@@ -74,20 +75,22 @@ const Sidebar = () => {
 
           <NavItem
             className={`cursor-pointer ${
-              activeItem === "product"
+              activeItem === "users"
                 ? "sidenav-bg mb-4 sidebar-item-bg"
                 : "sidenav-bg mb-4"
             }`}
           >
             <Link
-              to={"/product"}
+              to={"/admin/users"}
               className={`cursor-pointer p-2 d-flex align-items-center text-decoration-none ${
-                activeItem === "product" ? "side-bar-item-txt" : "side-bar-item-txt-none"
+                activeItem === "users"
+                  ? "side-bar-item-txt"
+                  : "side-bar-item-txt-none"
               }`}
-              onClick={() => handleItemClick("product")}
+              onClick={() => handleItemClick("users")}
             >
-              <i className="bi bi-box-seam ms-4"></i>
-              <span className="ms-3 d-inline-block">Product</span>
+              <i className="bi bi-people ms-4"></i>
+              <span className="ms-3 d-inline-block">Users</span>
             </Link>
           </NavItem>
         </Nav>

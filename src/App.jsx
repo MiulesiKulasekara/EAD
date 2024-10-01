@@ -9,31 +9,47 @@ import FullLayout from "./layouts/FullLayout";
 import Test from "./pages/Test/Test";
 
 //pages
+// admin
 import AdminSignin from "./pages/AdminSignin";
 import AdminSignup from "./pages/AdminSignup";
-import SelectRoles from "./pages/Admin/SelectRoles";
+import SelectRoles from "./pages/user/SelectRoles";
+
+//user management
+import AddUser from "./pages/user/AddUser";
+import UserList from "./pages/user/UserList";
+import UpdateUser from "./pages/user/UpdateUser";
 
 import "./css/styles.css";
 
 function App() {
   return (
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path="/" element={<FullLayout />}>
-    //       <Route index element={<Dashboard />} />
-    //       <Route path="product" element={<ProductList />} />
-    //     </Route>
-    //   </Routes>
-    // </BrowserRouter>
-
-    //********* Test *********
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<AdminSignin />}></Route>
-        <Route path="/admin-signup" element={<AdminSignup />}></Route>
-        <Route path="/admin-select-role" element={<SelectRoles />}></Route>
+        <Route path="/admin" element={<FullLayout />}>
+          <Route index element={<Dashboard />} />
+         
+          {/* uder management */}
+          <Route path="users" element={<UserList />}></Route>
+          <Route path="users/roles" element={<SelectRoles />}></Route>
+          <Route path="users/add" element={<AddUser />}></Route>
+          <Route path="users/update/:id" element={<UpdateUser />}></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
+
+    //********* Test *********
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path="/" element={<AdminSignin />}></Route>
+    //     <Route path="/admin/signup" element={<AdminSignup />}></Route>
+    //     <Route path="/admin-select-role" element={<SelectRoles />}></Route>
+
+    //     {/* uder management */}
+    //     <Route path="/admin/users" element={<UserList />}></Route>
+    //     <Route path="/admin/users/add" element={<AddUser />}></Route>
+    //     <Route path="/admin/users/update" element={<UpdateUser />}></Route>
+    //   </Routes>
+    // </BrowserRouter>
   );
 }
 
