@@ -4,6 +4,8 @@ import { Form, Container, Row, Col } from "react-bootstrap";
 import { adminsignupvalidationSchema } from "../Schema/ValidationSchema";
 import FormInput from "../componets/FormInput";
 import FormButton from "../componets/FormButton";
+import { UserRoleConstant } from "../Constants/Constants";
+import { UserStatusConstant } from "../Constants/Constants";
 
 const AdminSignup = () => {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -14,8 +16,8 @@ const AdminSignup = () => {
         email: "",
         password: "",
         confirmPassword: "",
-        role: 3,
-        status: 1
+        role: UserRoleConstant.ADMIN,
+        status: UserStatusConstant.INACTIVE
       },
 
       validationSchema: adminsignupvalidationSchema,
