@@ -6,10 +6,14 @@ import ProductList from "./pages/product/ProductList";
 import FullLayout from "./layouts/FullLayout";
 
 // componets
-import FormCheckInput from "react-bootstrap/esm/FormCheckInput";
-import "./css/styles.css";
-import FormInput from "./componets/FormInput";
 import Test from "./pages/Test/Test";
+
+//pages
+import AdminSignin from "./pages/AdminSignin";
+import AdminSignup from "./pages/AdminSignup";
+import SelectRoles from "./pages/Admin/SelectRoles";
+
+import "./css/styles.css";
 
 function App() {
   return (
@@ -25,7 +29,9 @@ function App() {
     //********* Test *********
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Test />}></Route>
+        <Route path="/" element={<AdminSignin />}></Route>
+        <Route path="/admin-signup" element={<AdminSignup />}></Route>
+        <Route path="/admin-select-role" element={<SelectRoles />}></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -2,9 +2,9 @@ import { Button } from "reactstrap";
 
 const FormButton = ({ className, text, type, onClick }) => {
   const buttonStyle = {
-    backgroundColor: "#576F72", // Black background
-    borderColor: "#576F72", // Black border
-    color: "#fff", // White text
+    backgroundColor: "#576F72",
+    borderColor: "#576F72",
+    color: "#fff",
   };
 
   const focusedStyle = {
@@ -21,10 +21,10 @@ const FormButton = ({ className, text, type, onClick }) => {
         style={buttonStyle}
         onClick={onClick}
         onFocus={(e) => {
-          e.target.style.boxShadow = focusedStyle.boxShadow; // Apply green outline on focus
+          e.target.style.boxShadow = focusedStyle.boxShadow;
         }}
         onBlur={(e) => {
-          e.target.style.boxShadow = "none"; // Remove outline on blur
+          e.target.style.boxShadow = "none";
         }}
       >
         {text}
