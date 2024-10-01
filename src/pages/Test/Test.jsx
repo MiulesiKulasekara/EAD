@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form } from "reactstrap";
 import { useFormik } from "formik";
-import { testvalidationSchema } from "../../../Schema/ValidationSchema";
+import { testvalidationSchema } from "../../Schema/ValidationSchema";
 import FormInput from "../../componets/FormInput";
 import FormButton from "../../componets/FormButton";
 

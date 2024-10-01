@@ -25,6 +25,8 @@ const FormInput = ({
     borderColor: "#dc3545",
     boxShadow: "0 0 0 0.2rem rgba(220, 53, 69, 0.25)",
   };
+
+  const inputStyle = error ? errorStyle : isFocused ? focusedStyle : {};
   
   return (
     <>
@@ -40,7 +42,7 @@ const FormInput = ({
           onChange={onChange}
           placeholder={placeholder}
           error={error}
-          style={error ? errorStyle : isFocused ? focusedStyle : {}}
+          style={inputStyle}
         />
       </FormGroup>
         {error && <p className="text-danger small">{errorMessage}</p>}
