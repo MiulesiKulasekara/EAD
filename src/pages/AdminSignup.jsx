@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import { Form, Container, Row, Col } from "react-bootstrap";
-import { adminsignupvalidationSchema } from "../Schema/ValidationSchema";
+import { adminsignupvalidationSchema } from "../schema/ValidationSchema";
 import FormInput from "../componets/FormInput";
 import FormButton from "../componets/FormButton";
-import { UserRoleConstant } from "../Constants/Constants";
-import { UserStatusConstant } from "../Constants/Constants";
+import { UserRoleEnum} from "../enums/Enum";
+import { UserStatusEnum } from "../enums/Enum";
 
 const AdminSignup = () => {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -16,8 +16,8 @@ const AdminSignup = () => {
         email: "",
         password: "",
         confirmPassword: "",
-        role: UserRoleConstant.ADMIN,
-        status: UserStatusConstant.INACTIVE
+        role: UserRoleEnum.ADMIN,
+        status: UserStatusEnum.INACTIVE
       },
 
       validationSchema: adminsignupvalidationSchema,

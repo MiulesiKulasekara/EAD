@@ -25,9 +25,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<AdminSignin />}></Route>
+        <Route path="/admin/signup" element={<AdminSignup />}></Route>
+
         <Route path="/admin" element={<FullLayout />}>
           <Route index element={<Dashboard />} />
-         
+
           {/* uder management */}
           <Route path="users" element={<UserList />}></Route>
           <Route path="users/roles" element={<SelectRoles />}></Route>

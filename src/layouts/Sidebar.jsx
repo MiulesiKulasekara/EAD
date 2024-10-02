@@ -2,19 +2,6 @@ import { Nav, NavItem, NavbarBrand } from "reactstrap";
 import { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
-// const navigation = [
-//   {
-//     title: "Dashboard",
-//     href: "/",
-//     icon: "bi bi-speedometer2",
-//   },
-//   {
-//     title: "Product",
-//     href: "/product",
-//     icon: "bi bi-box-seam",
-//   },
-// ];
-
 const Sidebar = () => {
   const { id } = useParams();
 

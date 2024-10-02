@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Container, Row, Col } from "react-bootstrap";
-import { UserRoleConstant } from "../../Constants/Constants";
+import { Card, Row, Col } from "react-bootstrap";
+import { UserRoleEnum } from "../../enums/Enum";
 import user1 from "../../assets/images/users/user1.jpg";
 import user2 from "../../assets/images/users/user2.jpg";
 import user3 from "../../assets/images/users/user3.jpg";
@@ -12,22 +12,22 @@ const roles = [
   {
     title: "Admin",
     imageUrl: user3,
-    roleNum: UserRoleConstant.ADMIN,
+    roleNum: UserRoleEnum.ADMIN,
   },
   {
     title: "CSR",
     imageUrl: user4,
-    roleNum: UserRoleConstant.CSR,
+    roleNum: UserRoleEnum.CSR,
   },
   {
     title: "Vender",
     imageUrl: user2,
-    roleNum: UserRoleConstant.VENDOR,
+    roleNum: UserRoleEnum.VENDOR,
   },
   {
     title: "Customer",
     imageUrl: user1,
-    roleNum: UserRoleConstant.CUSTOMER,
+    roleNum: UserRoleEnum.CUSTOMER,
   },
 ];
 
@@ -46,15 +46,14 @@ const SelectRoles = () => {
   };
 
   return (
-    <Container
-      fluid
-      className="d-flex flex-column justify-content-center max-vh-100"
-      style={{ paddingLeft: "" }}
-    >
+    <div className="p-4">
       <div className="">
-        <h3 className="mb-4">Select user role</h3>
+        <h3 className="mb-4">Select a user role</h3>
       </div>
-      <Row className="w-100 d-flex" style={{ paddingLeft: "130px" , marginTop: "100px" }}>
+      <Row
+        className="w-100 d-flex"
+        style={{ paddingLeft: "40px", marginTop: "100px" }}
+      >
         {roles.map((role, index) => (
           <Col key={index} sm={12} md={6} lg={3} className="mb-4">
             <Card
@@ -72,7 +71,7 @@ const SelectRoles = () => {
           </Col>
         ))}
       </Row>
-    </Container>
+    </div>
   );
 };
 
