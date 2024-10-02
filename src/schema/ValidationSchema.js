@@ -38,3 +38,33 @@ export const adminsignupvalidationSchema = Yup.object().shape({
     .oneOf([Yup.ref('password'), null], "Passwords must match")
     .required("Confirm password is required"),
 });
+
+export const uservalidationSchema = (roleNum) => {
+  return Yup.object().shape({
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    password: Yup.string().min(6, 'Password too short').required('Password is required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password')], 'Passwords must match')
+      .required('Confirm Password is required'),
+
+    // Conditionally validate firstName and lastName if roleNum is 1, 3, or 4
+    firstName: roleNum === 1 || roleNum === 3 || roleNum === 4
+      ? Yup.string().required('First name is required')
+      : Yup.string(),
+
+    lastName: roleNum === 1 || roleNum === 3 || roleNum === 4
+      ? Yup.string().required('Last name is required')
+      : Yup.string(),
+
+    // Conditionally validate companyName if roleNum is 2
+    companyName: roleNum === 2
+      ? Yup.string().required('Company name is required')
+      : Yup.string(),
+
+    // Conditionally validate description if roleNum is 2
+    description: roleNum === 2
+      ? Yup.string().required('Description is required')
+      : Yup.string(),
+  });
+};
+

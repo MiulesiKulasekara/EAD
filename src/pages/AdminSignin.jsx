@@ -2,7 +2,7 @@ import { useState } from "react";
 //import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { adminsigninvalidationSchema } from "../Schema/ValidationSchema";
+import { adminsigninvalidationSchema } from "../schema/ValidationSchema";
 import FormInput from "../componets/FormInput";
 import FormButton from "../componets/FormButton";
 
@@ -107,13 +107,6 @@ const AdminSignin = () => {
             <div className="d-flex justify-content-between mt-3">
               <a href="/#" className="login-forgotpwd">
                 Forgot Password?
-              </a>
-              <a
-                href="/admin/signup"
-                // onClick={handleSignUp}
-                className="login-register"
-              >
-                SignUp
               </a>
             </div>
           </Col>

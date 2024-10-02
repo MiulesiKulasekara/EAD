@@ -12,13 +12,13 @@ const FormInput = ({
   onChange,
   isFocused,
   placeholder,
+  rows,
   error,
   errorMessage,
 }) => {
-
   const focusedStyle = {
-    boxShadow: "0 0 0 0.2rem rgba(125, 157, 156, 0.5)", 
-    borderColor: "#7D9D9C", 
+    boxShadow: "0 0 0 0.2rem rgba(125, 157, 156, 0.5)",
+    borderColor: "#7D9D9C",
   };
 
   const errorStyle = {
@@ -27,25 +27,42 @@ const FormInput = ({
   };
 
   const inputStyle = error ? errorStyle : isFocused ? focusedStyle : {};
-  
+
   return (
     <>
       <FormGroup>
-        <Label>{label}</Label>
-        <Input
-          id={id}
-          name={name}
-          type={type}
-          value={value}
-          onBlur={onBlur}
-          onFocus={onFocus}
-          onChange={onChange}
-          placeholder={placeholder}
-          error={error}
-          style={inputStyle}
-        />
+        <Label style={{fontWeight:"500"}}>{label}</Label>
+        {type === "textarea" ? (
+          <Input
+            id={id}
+            name={name}
+            type={type}
+            value={value}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            onChange={onChange}
+            placeholder={placeholder}
+            error={error}
+            style={inputStyle}
+            rows={rows}
+            as="textarea"
+          />
+        ) : (
+          <Input
+            id={id}
+            name={name}
+            type={type}
+            value={value}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            onChange={onChange}
+            placeholder={placeholder}
+            error={error}
+            style={inputStyle}
+          />
+        )}
       </FormGroup>
-        {error && <p className="text-danger small">{errorMessage}</p>}
+      {error && <p className="text-danger small">{errorMessage}</p>}
     </>
   );
 };
