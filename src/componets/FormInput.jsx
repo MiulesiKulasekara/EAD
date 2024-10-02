@@ -13,6 +13,7 @@ const FormInput = ({
   isFocused,
   placeholder,
   rows,
+  options,
   error,
   errorMessage,
 }) => {
@@ -31,7 +32,7 @@ const FormInput = ({
   return (
     <>
       <FormGroup>
-        <Label style={{fontWeight:"500"}}>{label}</Label>
+        <Label style={{ fontWeight: "500" }}>{label}</Label>
         {type === "textarea" ? (
           <Input
             id={id}
@@ -47,6 +48,23 @@ const FormInput = ({
             rows={rows}
             as="textarea"
           />
+        ) : type === "select" ? (
+          <Input
+            id={id}
+            name={name}
+            type={type}
+            value={value}
+            onBlur={onBlur}
+            onFocus={onFocus}
+            onChange={onChange}
+            style={inputStyle}
+          >
+            {options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Input>
         ) : (
           <Input
             id={id}

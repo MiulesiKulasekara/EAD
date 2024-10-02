@@ -30,6 +30,14 @@ const Sidebar = () => {
       ) {
         setActiveItem("users");
       }
+      if (
+        location.pathname === "/admin/product/list" ||
+        location.pathname === "/admin/product/list/add" ||
+        location.pathname === "/admin/users/roles" ||
+        location.pathname === `/admin/product/list/update/${id}`
+      ) {
+        setActiveItem("productlist");
+      }
     };
     getActiveItem(location);
   }, [location, activeItem]);
@@ -78,6 +86,27 @@ const Sidebar = () => {
             >
               <i className="bi bi-people ms-4"></i>
               <span className="ms-3 d-inline-block">Users</span>
+            </Link>
+          </NavItem>
+
+          <NavItem
+            className={`cursor-pointer ${
+              activeItem === "productlist"
+                ? "sidenav-bg mb-4 sidebar-item-bg"
+                : "sidenav-bg mb-4"
+            }`}
+          >
+            <Link
+              to={"/admin/product/list"}
+              className={`cursor-pointer p-2 d-flex align-items-center text-decoration-none ${
+                activeItem === "productlist"
+                  ? "side-bar-item-txt"
+                  : "side-bar-item-txt-none"
+              }`}
+              onClick={() => handleItemClick("productlist")}
+            >
+              <i className="bi bi-list-check ms-4"></i>
+              <span className="ms-3 d-inline-block">Product List</span>
             </Link>
           </NavItem>
         </Nav>

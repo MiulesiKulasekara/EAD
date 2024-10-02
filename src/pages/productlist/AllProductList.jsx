@@ -1,45 +1,40 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Button, Table } from "react-bootstrap";
-import UserDetails from "./UserDetails";
+import ProductListDetails from "./ProductListDetails";
 import TablePagination from "../../componets/TablePagination";
 import FormButton from "../../componets/FormButton";
-import { users } from "../Test/Data";
-import {
-  ActiveStatus,
-  InactiveStatus,
-  PendingStatus,
-} from "../../componets/UserStatus";
-import { UserStatusEnum, RowsPerPageEnum } from "../../enums/Enum";
+import { productList } from "../Test/Data";
+import { RowsPerPageEnum } from "../../enums/Enum";
 
-function UserList() {
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [paginatedUsers, setPaginatedUsers] = useState(
-    users.slice(0, RowsPerPageEnum.MAX_TABLE_ROWS)
+const AllProductList = () => {
+  const [selectedProductList, setSelectedProductList] = useState(null);
+  const [paginatedProductList, setPpaginatedProductList] = useState(
+    productList.slice(0, RowsPerPageEnum.MAX_TABLE_ROWS)
   );
 
   const rowsPerPage = RowsPerPageEnum.MAX_TABLE_ROWS;
 
-  const handleRowClick = (user) => {
-    setSelectedUser(user);
-    console.log(user);
+  const handleRowClick = (productList) => {
+    setSelectedProductList(productList);
+    console.log(productList);
   };
 
   const handlePageChange = (paginatedData) => {
-    setPaginatedUsers(paginatedData);
+    setPpaginatedProductList(paginatedData);
   };
 
   return (
     <div className="p-4">
       <Row className="mb-2">
         <Col>
-          <h2>All Users</h2>
+          <h2>All Product List</h2>
         </Col>
       </Row>
       <Row className="mb-2">
         <Col className="d-flex justify-content-end">
-          <Link to="/admin/users/roles">
-            <FormButton text="+ Add a user" type="submit"></FormButton>
+          <Link to="/admin/product/list/add">
+            <FormButton text="+ Add a product List" type="submit"></FormButton>
           </Link>
         </Col>
       </Row>
@@ -51,40 +46,31 @@ function UserList() {
               <tr>
                 <th>No.</th>
                 <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Company Name</th>
+                <th>Vendor</th>
+                <th>Ststus</th>
                 <th>Description</th>
                 <th>Edit</th>
               </tr>
             </thead>
             <tbody>
-              {paginatedUsers.map((user) => (
-                <tr key={user.id}>
+              {paginatedProductList.map((productList) => (
+                <tr key={productList.id}>
                   <td
-                    onClick={() => handleRowClick(user)}
+                    onClick={() => handleRowClick(productList)}
                     style={{ cursor: "pointer" }}
                   >
-                    {user.id}
+                    {productList.id}
                   </td>
-                  <td className="table-cell">{user.name}</td>
-                  <td className="table-cell">{user.email}</td>
-                  <td className="table-cell">{user.role}</td>
+                  <td className="table-cell">{productList.name}</td>
+                  <td className="table-cell">{productList.vendorId}</td>
                   <td className="table-cell">
-                    {user.status === UserStatusEnum.ACTIVE && <ActiveStatus />}
-                    {user.status === UserStatusEnum.INACTIVE && (
-                      <InactiveStatus />
-                    )}
-                    {user.status === UserStatusEnum.PENDING && (
-                      <PendingStatus />
-                    )}
+                    {/*{productList.isActive}*/}Active
                   </td>
-                  <td className="table-cell">{user.companyName}</td>
-                  <td className="table-cell">{user.description}</td>
+                  <td className="table-cell">{productList.description}</td>
+
                   <td>
                     <Link
-                      to={`/admin/users/update/${user.id}`}
+                      to={`/admin/product/list/update/${productList.id}`}
                       style={{ textDecoration: "none" }}
                     >
                       <Button variant="outline-secondary" size="sm">
@@ -101,22 +87,22 @@ function UserList() {
           </Table>
 
           <TablePagination
-            data={users}
+            data={productList}
             rowsPerPage={rowsPerPage}
             onPageChange={handlePageChange}
           />
         </Col>
       </Row>
 
-      {selectedUser && (
+      {selectedProductList && (
         <Row className="">
           <Col>
-            <UserDetails user={selectedUser} />
+            <ProductListDetails productListDetails={selectedProductList} />
           </Col>
         </Row>
       )}
     </div>
   );
-}
+};
 
-export default UserList;
+export default AllProductList;
