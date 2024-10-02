@@ -21,6 +21,6 @@ export const UserRoleEnum = {
   };
 
   export const RowsPerPageEnum = {
-    MAX_TABLE_ROWS: 5,
+    MAX_TABLE_ROWS: 3,
   };
   

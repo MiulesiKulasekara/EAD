@@ -9,10 +9,9 @@ import { UserStatusEnum } from "../../enums/Enum";
 import { useParams } from "react-router-dom";
 
 const UpdateUser = () => {
-
   const { id } = useParams();
 
-  var roleNum = 1 ;
+  var roleNum = 1;
 
   var userRole = "a User";
 

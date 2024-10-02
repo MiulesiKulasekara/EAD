@@ -12,12 +12,19 @@ import Test from "./pages/Test/Test";
 // admin
 import AdminSignin from "./pages/AdminSignin";
 import AdminSignup from "./pages/AdminSignup";
-import SelectRoles from "./pages/user/SelectRoles";
+
 
 //user management
 import AddUser from "./pages/user/AddUser";
 import UserList from "./pages/user/UserList";
 import UpdateUser from "./pages/user/UpdateUser";
+import SelectRoles from "./pages/user/SelectRoles";
+
+//product list management
+import AddProductList from "./pages/productlist/AddProductList";
+import AllProductList from "./pages/productlist/AllProductList";
+import ProductListDetails from "./pages/productlist/ProductListDetails";
+import UpdateProductList from "./pages/productlist/UpdateProductList";
 
 import "./css/styles.css";
 
@@ -31,11 +38,16 @@ function App() {
         <Route path="/admin" element={<FullLayout />}>
           <Route index element={<Dashboard />} />
 
-          {/* uder management */}
+          {/* user management */}
           <Route path="users" element={<UserList />}></Route>
           <Route path="users/roles" element={<SelectRoles />}></Route>
           <Route path="users/add" element={<AddUser />}></Route>
           <Route path="users/update/:id" element={<UpdateUser />}></Route>
+
+          {/* product list management */}
+          <Route path="product/list" element={<AllProductList />}></Route>
+          <Route path="product/list/add" element={<AddProductList />}></Route>
+          <Route path="product/list/update/:id" element={<UpdateProductList />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
