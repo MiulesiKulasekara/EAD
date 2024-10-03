@@ -28,7 +28,7 @@ const ProductList = () => {
     <div className="p-4">
       <Row className="mb-2">
         <Col>
-          <h2>All Users</h2>
+          <h2>All Products</h2>
         </Col>
       </Row>
       <Row className="mb-2">
@@ -71,7 +71,7 @@ const ProductList = () => {
                   <td className="table-cell">{product.description}</td>
                   <td>
                     <Link
-                      to={`/admin/users/update/${product.id}`}
+                      to={`/admin/product/update/${product.id}`}
                       style={{ textDecoration: "none" }}
                     >
                       <Button variant="outline-secondary" size="sm">
