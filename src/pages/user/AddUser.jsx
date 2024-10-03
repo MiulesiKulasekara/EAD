@@ -37,7 +37,7 @@ const AddUser = () => {
         status: UserStatusEnum.INACTIVE,
       },
 
-      validationSchema: uservalidationSchema,
+      validationSchema: uservalidationSchema(roleNum),
 
       onSubmit: async (values) => {
         try {
