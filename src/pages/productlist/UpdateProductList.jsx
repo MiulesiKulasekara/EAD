@@ -89,7 +89,6 @@ export const UpdateProductList = () => {
               }}
               onChange={handleChange}
               isFocused={isFocusStates.isActive}
-              placeholder="Enter Name"
               options={[
                 { value: "true", label: "Active" },
                 { value: "false", label: "Deactive" },

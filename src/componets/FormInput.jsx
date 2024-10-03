@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FormGroup, Label, Input } from "reactstrap";
 
 const FormInput = ({
@@ -57,6 +56,7 @@ const FormInput = ({
             onBlur={onBlur}
             onFocus={onFocus}
             onChange={onChange}
+            error={error}
             style={inputStyle}
           >
             {options.map((option) => (

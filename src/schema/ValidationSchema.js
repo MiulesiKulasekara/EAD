@@ -81,5 +81,14 @@ export const productListvalidationSchema = Yup.object().shape({
 export const updateproductListvalidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   vendorId: Yup.string().required("Vendor is required"),
- // isActive: Yup.string().required("Status is required"),
+  // isActive: Yup.string().required("Status is required"),
+});
+
+export const productvalidationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  price: Yup.string().required("Price is required"),
+  listingId: Yup.string().required("List is required"),
+  stockQuantity: Yup.string().required("Quantity is required"),
+  category: Yup.string().required("Category is required"),
+  description: Yup.string().required("Description is required"),
 });

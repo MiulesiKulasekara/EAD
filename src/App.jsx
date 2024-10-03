@@ -2,7 +2,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import ProductList from "./pages/product/ProductList";
 import FullLayout from "./layouts/FullLayout";
 
 // componets
@@ -23,8 +22,15 @@ import SelectRoles from "./pages/user/SelectRoles";
 //product list management
 import AddProductList from "./pages/productlist/AddProductList";
 import AllProductList from "./pages/productlist/AllProductList";
-import ProductListDetails from "./pages/productlist/ProductListDetails";
 import UpdateProductList from "./pages/productlist/UpdateProductList";
+
+//product management
+import AddProduct from "./pages/product/AddProduct";
+import ProductList from "./pages/product/ProductList";
+import UpdateProduct from "./pages/product/UpdateProduct";
+
+//Test
+import MultiColorPickerExample from "./pages/Test/MultiColorPickerExample";
 
 import "./css/styles.css";
 
@@ -34,6 +40,9 @@ function App() {
       <Routes>
         <Route path="/" element={<AdminSignin />}></Route>
         <Route path="/admin/signup" element={<AdminSignup />}></Route>
+
+        {/* Test */}
+        <Route path="/test" element={<MultiColorPickerExample />}></Route>
 
         <Route path="/admin" element={<FullLayout />}>
           <Route index element={<Dashboard />} />
@@ -48,6 +57,11 @@ function App() {
           <Route path="product/list" element={<AllProductList />}></Route>
           <Route path="product/list/add" element={<AddProductList />}></Route>
           <Route path="product/list/update/:id" element={<UpdateProductList />}></Route>
+
+          {/* product management */}
+          <Route path="product" element={<ProductList />}></Route>
+          <Route path="product/add" element={<AddProduct />}></Route>
+          <Route path="product/update/:id" element={<UpdateProduct />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -28,8 +28,8 @@ export const AddProductList = () => {
 
   //input focus
   const [isFocusStates, setIsFocusStates] = useState({
-    email: false,
-    password: false,
+    name: false,
+    description: false,
   });
 
   const handleFocus = (field) => {
