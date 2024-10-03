@@ -33,10 +33,16 @@ const Sidebar = () => {
       if (
         location.pathname === "/admin/product/list" ||
         location.pathname === "/admin/product/list/add" ||
-        location.pathname === "/admin/users/roles" ||
         location.pathname === `/admin/product/list/update/${id}`
       ) {
         setActiveItem("productlist");
+      }
+      if (
+        location.pathname === "/admin/product" ||
+        location.pathname === "/admin/product/add" ||
+        location.pathname === `/admin/product/update/${id}`
+      ) {
+        setActiveItem("product");
       }
     };
     getActiveItem(location);
@@ -107,6 +113,27 @@ const Sidebar = () => {
             >
               <i className="bi bi-list-check ms-4"></i>
               <span className="ms-3 d-inline-block">Product List</span>
+            </Link>
+          </NavItem>
+
+          <NavItem
+            className={`cursor-pointer ${
+              activeItem === "product"
+                ? "sidenav-bg mb-4 sidebar-item-bg"
+                : "sidenav-bg mb-4"
+            }`}
+          >
+            <Link
+              to={"/admin/product"}
+              className={`cursor-pointer p-2 d-flex align-items-center text-decoration-none ${
+                activeItem === "product"
+                  ? "side-bar-item-txt"
+                  : "side-bar-item-txt-none"
+              }`}
+              onClick={() => handleItemClick("product")}
+            >
+              <i className="bi-box-seam ms-4"></i>
+              <span className="ms-3 d-inline-block">Product</span>
             </Link>
           </NavItem>
         </Nav>
