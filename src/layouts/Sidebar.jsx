@@ -44,6 +44,12 @@ const Sidebar = () => {
       ) {
         setActiveItem("product");
       }
+      if (
+        location.pathname === "/admin/order" ||
+        location.pathname === `/admin/order/update/${id}`
+      ) {
+        setActiveItem("order");
+      }
     };
     getActiveItem(location);
   }, [location, activeItem]);
@@ -134,6 +140,27 @@ const Sidebar = () => {
             >
               <i className="bi-box-seam ms-4"></i>
               <span className="ms-3 d-inline-block">Product</span>
+            </Link>
+          </NavItem>
+
+          <NavItem
+            className={`cursor-pointer ${
+              activeItem === "order"
+                ? "sidenav-bg mb-4 sidebar-item-bg"
+                : "sidenav-bg mb-4"
+            }`}
+          >
+            <Link
+              to={"/admin/order"}
+              className={`cursor-pointer p-2 d-flex align-items-center text-decoration-none ${
+                activeItem === "order"
+                  ? "side-bar-item-txt"
+                  : "side-bar-item-txt-none"
+              }`}
+              onClick={() => handleItemClick("order")}
+            >
+              <i className="bi-box-seam ms-4"></i>
+              <span className="ms-3 d-inline-block">Order</span>
             </Link>
           </NavItem>
         </Nav>

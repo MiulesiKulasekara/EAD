@@ -92,3 +92,7 @@ export const productvalidationSchema = Yup.object().shape({
   category: Yup.string().required("Category is required"),
   description: Yup.string().required("Description is required"),
 });
+
+export const ordervalidationSchema = Yup.object().shape({
+  //name: Yup.string().required("Status is required"),
+});
