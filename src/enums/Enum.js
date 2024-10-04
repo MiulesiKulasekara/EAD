@@ -23,4 +23,10 @@ export const UserRoleEnum = {
   export const RowsPerPageEnum = {
     MAX_TABLE_ROWS: 3,
   };
+
+  export const StarRatingEnum = {
+    TOTAL_STARS : 5,
+    RATING : 0
+
+  }
   
