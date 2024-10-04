@@ -26,7 +26,7 @@ const Sidebar = () => {
         location.pathname === "/admin/users" ||
         location.pathname === "/admin/users/add" ||
         location.pathname === "/admin/users/roles" ||
-        location.pathname === `/admin/users/update//${id}`
+        location.pathname === `/admin/users/update/${id}`
       ) {
         setActiveItem("users");
       }
@@ -159,7 +159,7 @@ const Sidebar = () => {
               }`}
               onClick={() => handleItemClick("order")}
             >
-              <i className="bi-box-seam ms-4"></i>
+              <i className="bi bi-cart-check ms-4"></i>
               <span className="ms-3 d-inline-block">Order</span>
             </Link>
           </NavItem>

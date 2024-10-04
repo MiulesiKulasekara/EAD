@@ -5,7 +5,7 @@ import ProductDetails from "./ProductDetails";
 import TablePagination from "../../componets/TablePagination";
 import FormButton from "../../componets/FormButton";
 import { product } from "../Test/Data";
-import { UserStatusEnum, RowsPerPageEnum } from "../../enums/Enum";
+import { RowsPerPageEnum } from "../../enums/Enum";
 
 const ProductList = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -16,8 +16,11 @@ const ProductList = () => {
   const rowsPerPage = RowsPerPageEnum.MAX_TABLE_ROWS;
 
   const handleRowClick = (product) => {
-    setSelectedProduct(product);
-    //console.log(product);
+    if (selectedProduct && selectedProduct.id === product.id) {
+      setSelectedProduct(null);
+    } else {
+      setSelectedProduct(product);
+    }
   };
 
   const handlePageChange = (paginatedData) => {
@@ -57,12 +60,7 @@ const ProductList = () => {
             <tbody>
               {paginatedProduct.map((product) => (
                 <tr key={product.id}>
-                  <td
-                    onClick={() => handleRowClick(product)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {product.id}
-                  </td>
+                  <td>{product.id}</td>
                   <td className="table-cell">{product.name}</td>
                   <td className="table-cell">{product.price}</td>
                   <td className="table-cell">{product.stockQuantity}</td>
@@ -70,14 +68,21 @@ const ProductList = () => {
                   <td className="table-cell">{product.material}</td>
                   <td className="table-cell">{product.description}</td>
                   <td>
+                    <Button
+                      variant="outline-primary"
+                      size="sm"
+                      onClick={() => handleRowClick(product)}
+                    >
+                      <i className="bi bi-eye"></i>
+                    </Button>{" "}
                     <Link
                       to={`/admin/product/update/${product.id}`}
                       style={{ textDecoration: "none" }}
                     >
                       <Button variant="outline-secondary" size="sm">
                         <i className="bi bi-pencil"></i>
-                      </Button>{" "}
-                    </Link>
+                      </Button>
+                    </Link>{" "}
                     <Button variant="outline-danger" size="sm">
                       <i className="bi bi-trash3"></i>
                     </Button>
@@ -96,7 +101,7 @@ const ProductList = () => {
       </Row>
 
       {selectedProduct && (
-        <Row className="">
+        <Row>
           <Col>
             <ProductDetails product={selectedProduct} />
           </Col>

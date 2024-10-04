@@ -16,8 +16,11 @@ const AllProductList = () => {
   const rowsPerPage = RowsPerPageEnum.MAX_TABLE_ROWS;
 
   const handleRowClick = (productList) => {
-    setSelectedProductList(productList);
-    console.log(productList);
+    if (selectedProductList && selectedProductList.id === productList.id) {
+      setSelectedProductList(null);
+    } else {
+      setSelectedProductList(productList);
+    }
   };
 
   const handlePageChange = (paginatedData) => {
@@ -55,20 +58,21 @@ const AllProductList = () => {
             <tbody>
               {paginatedProductList.map((productList) => (
                 <tr key={productList.id}>
-                  <td
-                    onClick={() => handleRowClick(productList)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {productList.id}
-                  </td>
+                  <td>{productList.id}</td>
                   <td className="table-cell">{productList.name}</td>
                   <td className="table-cell">{productList.vendorId}</td>
                   <td className="table-cell">
                     {/*{productList.isActive}*/}Active
                   </td>
                   <td className="table-cell">{productList.description}</td>
-
                   <td>
+                    <Button
+                      variant="outline-primary"
+                      size="sm"
+                      onClick={() => handleRowClick(productList)}
+                    >
+                      <i className="bi bi-eye"></i>
+                    </Button>{" "}
                     <Link
                       to={`/admin/product/list/update/${productList.id}`}
                       style={{ textDecoration: "none" }}

@@ -21,8 +21,11 @@ function UserList() {
   const rowsPerPage = RowsPerPageEnum.MAX_TABLE_ROWS;
 
   const handleRowClick = (user) => {
-    setSelectedUser(user);
-    console.log(user);
+    if (selectedUser && selectedUser.id === user.id) {
+      setSelectedUser(null);
+    } else {
+      setSelectedUser(user);
+    }
   };
 
   const handlePageChange = (paginatedData) => {
@@ -83,6 +86,13 @@ function UserList() {
                   <td className="table-cell">{user.companyName}</td>
                   <td className="table-cell">{user.description}</td>
                   <td>
+                  <Button
+                      variant="outline-primary"
+                      size="sm"
+                      onClick={() => handleRowClick(user)}
+                    >
+                      <i className="bi bi-eye"></i>
+                    </Button>{" "}
                     <Link
                       to={`/admin/users/update/${user.id}`}
                       style={{ textDecoration: "none" }}

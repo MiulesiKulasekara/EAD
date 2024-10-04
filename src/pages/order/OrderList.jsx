@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Button, Table } from "react-bootstrap";
 import OrderDetails from "./OrderDetails";
-import UpdateOrder from "./UpdateOrder";  // Import the UpdateOrder component
+import UpdateOrder from "./UpdateOrder"; // Import the UpdateOrder component
 import TablePagination from "../../componets/TablePagination";
 import { orders } from "../Test/Data";
 import {
@@ -49,7 +49,6 @@ export const OrderList = () => {
     setPaginatedOrder(paginatedData);
     setSelectedOrder(null);
     setSelectedUpdateOrder(null);
-    
   };
 
   return (
@@ -75,12 +74,7 @@ export const OrderList = () => {
             <tbody>
               {paginatedOrder.map((order) => (
                 <tr key={order.id}>
-                  <td
-                    onClick={() => handleRowClick(order)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {order.id}
-                  </td>
+                  <td>{order.id}</td>
                   <td className="table-cell">{order.customerId}</td>
                   <td className="table-cell">{order.totalAmount}</td>
                   <td className="table-cell">
@@ -102,6 +96,13 @@ export const OrderList = () => {
                     )}
                   </td>
                   <td>
+                  <Button
+                      variant="outline-primary"
+                      size="sm"
+                      onClick={() => handleRowClick(order)}
+                    >
+                      <i className="bi bi-eye"></i>
+                    </Button>{" "}
                     <Button
                       variant="outline-secondary"
                       size="sm"
@@ -148,4 +149,3 @@ export const OrderList = () => {
 };
 
 export default OrderList;
-
