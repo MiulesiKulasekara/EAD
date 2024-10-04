@@ -29,10 +29,15 @@ import AddProduct from "./pages/product/AddProduct";
 import ProductList from "./pages/product/ProductList";
 import UpdateProduct from "./pages/product/UpdateProduct";
 
+//order management
+import OrderList from "./pages/order/OrderList";
+import OrderDetails from "./pages/order/OrderDetails";
+
 //Test
 import MultiColorPickerExample from "./pages/Test/MultiColorPickerExample";
 
 import "./css/styles.css";
+import UpdateOrder from "./pages/order/UpdateOrder";
 
 function App() {
   return (
@@ -62,6 +67,10 @@ function App() {
           <Route path="product" element={<ProductList />}></Route>
           <Route path="product/add" element={<AddProduct />}></Route>
           <Route path="product/update/:id" element={<UpdateProduct />}></Route>
+
+          {/* order management */}
+          <Route path="order" element={<OrderList />}></Route>
+          <Route path="order/update/:id" element={<UpdateOrder />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
