@@ -31,13 +31,12 @@ import UpdateProduct from "./pages/product/UpdateProduct";
 
 //order management
 import OrderList from "./pages/order/OrderList";
-import OrderDetails from "./pages/order/OrderDetails";
+import UpdateOrder from "./pages/order/UpdateOrder";
 
 //Test
 import MultiColorPickerExample from "./pages/Test/MultiColorPickerExample";
 
 import "./css/styles.css";
-import UpdateOrder from "./pages/order/UpdateOrder";
 
 function App() {
   return (
