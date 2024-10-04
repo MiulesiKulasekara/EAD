@@ -50,6 +50,11 @@ const Sidebar = () => {
       ) {
         setActiveItem("order");
       }
+      if (
+        location.pathname === "/admin/vendor/ratings"
+      ) {
+        setActiveItem("vendorRatings");
+      }
     };
     getActiveItem(location);
   }, [location, activeItem]);
@@ -161,6 +166,27 @@ const Sidebar = () => {
             >
               <i className="bi bi-cart-check ms-4"></i>
               <span className="ms-3 d-inline-block">Order</span>
+            </Link>
+          </NavItem>
+
+          <NavItem
+            className={`cursor-pointer ${
+              activeItem === "vendorRatings"
+                ? "sidenav-bg mb-4 sidebar-item-bg"
+                : "sidenav-bg mb-4"
+            }`}
+          >
+            <Link
+              to={"/admin/vendor/ratings"}
+              className={`cursor-pointer p-2 d-flex align-items-center text-decoration-none ${
+                activeItem === "vendorRatings"
+                  ? "side-bar-item-txt"
+                  : "side-bar-item-txt-none"
+              }`}
+              onClick={() => handleItemClick("vendorRatings")}
+            >
+              <i className="bi bi-star-half ms-4"></i>
+              <span className="ms-3 d-inline-block">Vendor Ratings</span>
             </Link>
           </NavItem>
         </Nav>

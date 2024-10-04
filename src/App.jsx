@@ -12,7 +12,6 @@ import Test from "./pages/Test/Test";
 import AdminSignin from "./pages/AdminSignin";
 import AdminSignup from "./pages/AdminSignup";
 
-
 //user management
 import AddUser from "./pages/user/AddUser";
 import UserList from "./pages/user/UserList";
@@ -33,8 +32,12 @@ import UpdateProduct from "./pages/product/UpdateProduct";
 import OrderList from "./pages/order/OrderList";
 import UpdateOrder from "./pages/order/UpdateOrder";
 
+//vendor ratings management
+import VendorRatingsList from "./pages/vendorRatings/VendorRatingsList";
+
 //Test
 import MultiColorPickerExample from "./pages/Test/MultiColorPickerExample";
+import StarRating from "./componets/StarRating";
 
 import "./css/styles.css";
 
@@ -46,7 +49,7 @@ function App() {
         <Route path="/admin/signup" element={<AdminSignup />}></Route>
 
         {/* Test */}
-        <Route path="/test" element={<MultiColorPickerExample />}></Route>
+        <Route path="/test" element={<StarRating />}></Route>
 
         <Route path="/admin" element={<FullLayout />}>
           <Route index element={<Dashboard />} />
@@ -70,23 +73,13 @@ function App() {
           {/* order management */}
           <Route path="order" element={<OrderList />}></Route>
           <Route path="order/update/:id" element={<UpdateOrder />}></Route>
+
+          {/* vendor ratings management */}
+          <Route path="vendor/ratings" element={<VendorRatingsList />}></Route>
+
         </Route>
       </Routes>
     </BrowserRouter>
-
-    //********* Test *********
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path="/" element={<AdminSignin />}></Route>
-    //     <Route path="/admin/signup" element={<AdminSignup />}></Route>
-    //     <Route path="/admin-select-role" element={<SelectRoles />}></Route>
-
-    //     {/* uder management */}
-    //     <Route path="/admin/users" element={<UserList />}></Route>
-    //     <Route path="/admin/users/add" element={<AddUser />}></Route>
-    //     <Route path="/admin/users/update" element={<UpdateUser />}></Route>
-    //   </Routes>
-    // </BrowserRouter>
   );
 }
 

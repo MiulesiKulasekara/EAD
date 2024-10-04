@@ -98,7 +98,8 @@ export const UpdateProductList = () => {
             />
           </Col>
 
-          <Col><FormInput
+          <Col>
+            <FormInput
               label="Verdor"
               id="vendorId"
               name="vendorId"
@@ -116,7 +117,8 @@ export const UpdateProductList = () => {
               placeholder="Enter Vendor"
               error={touched.vendorId && errors.vendorId}
               errorMessage={errors.vendorId}
-            /></Col>
+            />
+          </Col>
         </Row>
         <Row>
           <Col>

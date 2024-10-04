@@ -53,3 +53,17 @@
 .pagination .page-item.disabled .page-link {
     color: #576F72;
 }
+
+/* Star ratings */
+.star-rating {
+    display: flex;
+    font-size: 2rem;
+  }
+  
+  .star {
+    color: lightgray;
+  }
+  
+  .star.filled {
+    color: gold;
+  }
