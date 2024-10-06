@@ -5,28 +5,46 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import { adminsigninvalidationSchema } from "../schema/ValidationSchema";
 import FormInput from "../componets/FormInput";
 import FormButton from "../componets/FormButton";
-
+import { useLoginUserMutation } from "../core/services/auth/auth";
 import "../css/admin-auth.css";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const AdminSignin = () => {
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-      },
+  const [loginService] = useLoginUserMutation();
+  const navigate = useNavigate()
+  const [cookies, setCookie] = useCookies(["AUTH_TOKEN_KEY", "USER_ID"]);
 
-      validationSchema: adminsigninvalidationSchema,
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
 
-      onSubmit: async (values) => {
-        try {
-          console.log(values);
-          //resetForm();
-        } catch (error) {
-          console.log(error);
+    validationSchema: adminsigninvalidationSchema,
+
+    onSubmit: async (values) => {
+      try {
+        const payload = {
+          email: values.email,
+          password: values.password,
+        };
+        const result = await loginService({ body: payload }).unwrap();
+
+        if (result.success) {
+          setCookie("AUTH_TOKEN_KEY", result.accessToken);
+          setCookie("USER_ID", result.userId);
+          console.log("Login Successful:");
+          navigate("/admin")
+        } else {
+          const errorData = await result.json();
+          console.log("Error occurred: ", errorData);
         }
-      },
-    });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 
   //input focus
   const [isFocusStates, setIsFocusStates] = useState({
@@ -57,9 +75,7 @@ const AdminSignin = () => {
           <Col md={6}></Col>
           <Col md={4} className="login-form">
             <h2>Admin Portal</h2>
-            <p className="login-guide">
-              Please login with your email address and password
-            </p>
+            <p className="login-guide">Please login with your email address and password</p>
 
             <Form onSubmit={handleSubmit}>
               <FormInput
