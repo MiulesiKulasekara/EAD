@@ -13,11 +13,18 @@ import {
   Dropdown,
   Button,
 } from "reactstrap";
-
 import user1 from "../assets/images/users/user3.jpg";
 import Logo from "./Logo";
+import { UserRoleEnum } from "../enums/Enum";
+import { useCookies } from "react-cookie";
+import { useGetUserByIdQuery } from "../core/services/user/user";
 
 const Header = () => {
+  const [cookies] = useCookies(["USER_ID"]);
+  const userId = cookies.USER_ID || "";
+  const { data } = useGetUserByIdQuery({ userId: userId });
+  //console.log(data)
+
   const [isOpen, setIsOpen] = useState(false);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -29,6 +36,16 @@ const Header = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
+
+  const getDisplayName = () => {
+    if (data?.role === UserRoleEnum.ADMIN || data?.role === UserRoleEnum.CSR) {
+      return `${data.firstName} ${data.lastName}`;
+    } else if (data?.role === UserRoleEnum.VENDOR) {
+      return data.companyName;
+    }
+    return "";
+  };
+
   return (
     <Navbar dark expand="md" className="fix-header admin-header">
       <div className="d-flex align-items-center">
@@ -92,6 +109,9 @@ const Header = () => {
               className="rounded-circle"
               width="45"
             ></img>
+            {data && (
+              <span className="ms-2 text-white">{getDisplayName()}</span>
+            )}
           </DropdownToggle>
           {/* <DropdownMenu>
             <DropdownItem header>Info</DropdownItem>

@@ -1,13 +1,12 @@
 // LumaShopEnums.js
-
-export const UserRoleConstant = {
+export const UserRoleEnum = {
     CUSTOMER: 1,
     VENDOR: 2,
     ADMIN: 3,
     CSR: 4
   };
   
-  export const UserStatusConstant = {
+  export const UserStatusEnum = {
     ACTIVE: 1,
     INACTIVE: 2,
     PENDING: 3
@@ -20,4 +19,14 @@ export const UserRoleConstant = {
     CANCELLED: 20,
     COMPLETED: 25
   };
+
+  export const RowsPerPageEnum = {
+    MAX_TABLE_ROWS: 3,
+  };
+
+  export const StarRatingEnum = {
+    TOTAL_STARS : 5,
+    RATING : 0
+
+  }
   
