@@ -4,22 +4,34 @@ import { Form, Row, Col } from "react-bootstrap";
 import { productListvalidationSchema } from "../../schema/ValidationSchema";
 import FormInput from "../../componets/FormInput";
 import FormButton from "../../componets/FormButton";
+import { useGetUserByIdQuery } from "../../core/services/user/user";
+import { useCookies } from "react-cookie";
+import { useCreateProductListingMutation } from "../../core/services/productListing/productListing";
 
 export const AddProductList = () => {
+  const [cookies] = useCookies(["USER_ID"]);
+  const userId = cookies.USER_ID || "";
+  const { data:userData } = useGetUserByIdQuery({ userId: userId });
+
+  const [createProductListing, { isLoading, isError, isSuccess }] =
+    useCreateProductListingMutation();
+
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
         name: "",
         description: "",
-        vendorId: "",
+        vendorId: userData?.id,
       },
 
       validationSchema: productListvalidationSchema,
 
-      onSubmit: async (values) => {
+      onSubmit: async (values, { resetForm }) => {
         try {
-          console.log(values);
-          //resetForm();
+          await createProductListing({ body: values }).unwrap();
+          console.log("Product List created successfully");
+          //console.log(values);
+          resetForm();
         } catch (error) {
           console.log(error);
         }

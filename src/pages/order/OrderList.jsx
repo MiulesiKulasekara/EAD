@@ -65,9 +65,9 @@ export const OrderList = () => {
             <thead>
               <tr>
                 <th>No.</th>
-                <th>customerId</th>
-                <th>totalAmount</th>
-                <th>status</th>
+                <th>customer</th>
+                <th>Total Amount</th>
+                <th>Status</th>
                 <th>Edit</th>
               </tr>
             </thead>

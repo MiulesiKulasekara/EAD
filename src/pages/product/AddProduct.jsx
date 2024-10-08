@@ -5,44 +5,68 @@ import { productvalidationSchema } from "../../schema/ValidationSchema";
 import FormInput from "../../componets/FormInput";
 import FormButton from "../../componets/FormButton";
 import { productList, furnitureCategories } from "../Test/Data";
+import { useGetUserByIdQuery } from "../../core/services/user/user";
+import { useCreateProductMutation } from "../../core/services/product/product";
+import { useGetAllProductListingsQuery } from "../../core/services/productListing/productListing";
+import { useCookies } from "react-cookie";
 
 const AddProduct = () => {
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: {
-        name: "",
-        description: "",
-        price: "",
-        category: "",
-        vendorId: "",
-        isArchived: true,
-        stockQuantity: "",
-        dimensions: {
-          width: 0,
-          height: 0,
-          depth: 0,
-        },
-        material: "",
-        colorOptions: [""],
-        weight: 0,
-        assemblyRequired: true,
-        productImages: [""],
-        warrantyPeriod: 0,
-        isFeatured: true,
-        listingId: "",
-      },
+  const [cookies] = useCookies(["USER_ID"]);
+  const userId = cookies.USER_ID || "";
+  const { data:user } = useGetUserByIdQuery({ userId: userId });
 
-      validationSchema: productvalidationSchema,
+  const [createProduct, { isLoading, isSuccess, isError, error }] =
+    useCreateProductMutation();
 
-      onSubmit: async (values) => {
-        try {
-          console.log(values);
-          //resetForm();
-        } catch (error) {
-          console.log(error);
-        }
+  const { data: productListData } = useGetAllProductListingsQuery();
+
+  //console.log(productListData);
+
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    resetForm,
+  } = useFormik({
+    initialValues: {
+      name: "",
+      description: "",
+      price: "",
+      category: "",
+      vendorId: user?.id,
+      isArchived: true,
+      stockQuantity: "",
+      dimensions: {
+        width: 0,
+        height: 0,
+        depth: 0,
       },
-    });
+      material: "",
+      colorOptions: [""],
+      weight: 0,
+      assemblyRequired: true,
+      productImages: [""],
+      warrantyPeriod: 0,
+      isFeatured: true,
+      listingId: "",
+    },
+
+    validationSchema: productvalidationSchema,
+
+    onSubmit: async (values) => {
+      try {
+        await createProduct({ body: values }).unwrap();
+        console.log("Product created successfully");
+        //console.log(values);
+        resetForm();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 
   //input focus
   const [isFocusStates, setIsFocusStates] = useState({
@@ -64,6 +88,7 @@ const AddProduct = () => {
     assemblyRequired: false,
     productImages: false,
     warrantyPeriod: false,
+    isArchived:false,
     isFeatured: false,
     listingId: false,
   });
@@ -91,15 +116,17 @@ const AddProduct = () => {
   };
 
   //list options
-  const transformedOptions = productList
-    .filter((product) => product.isActive)
-    .map((product) => ({
-      value: product.id,
-      label: product.name,
-    }));
+  const transformedOptions = productListData
+    ? productListData
+        .filter((productListData) => productListData.isActive)
+        .map((product) => ({
+          value: product.id,
+          label: product.name,
+        }))
+    : [];
 
   const transformedCategories = furnitureCategories.map((category) => ({
-    value: category.id,
+    value: category.name,
     label: category.name,
   }));
 
@@ -182,7 +209,7 @@ const AddProduct = () => {
               label="Price"
               id="price"
               name="price"
-              type="text"
+              type="number"
               value={values.price}
               onBlur={(e) => {
                 manageBlur("price");
@@ -203,7 +230,7 @@ const AddProduct = () => {
               label="Quantity"
               id="stockQuantity"
               name="stockQuantity"
-              type="text"
+              type="number"
               value={values.stockQuantity}
               onBlur={(e) => {
                 manageBlur("stockQuantity");
@@ -294,7 +321,7 @@ const AddProduct = () => {
               label="Width"
               id="dimensions.width"
               name="dimensions.width"
-              type="text"
+              type="number"
               value={values.dimensions.width}
               onBlur={(e) => {
                 manageBlur("width", true);
@@ -313,7 +340,7 @@ const AddProduct = () => {
               label="Height"
               id="dimensions.height"
               name="dimensions.height"
-              type="text"
+              type="number"
               value={values.dimensions.height}
               onBlur={(e) => {
                 manageBlur("height", true);
@@ -332,7 +359,7 @@ const AddProduct = () => {
               label="Depth"
               id="dimensions.depth"
               name="dimensions.depth"
-              type="text"
+              type="number"
               value={values.dimensions.depth}
               onBlur={(e) => {
                 manageBlur("depth", true);
@@ -354,7 +381,7 @@ const AddProduct = () => {
               label="Weight"
               id="weight"
               name="weight"
-              type="text"
+              type="number"
               value={values.weight}
               onBlur={(e) => {
                 manageBlur("weight");
@@ -375,7 +402,7 @@ const AddProduct = () => {
               label="Warranty Period"
               id="warrantyPeriod"
               name="warrantyPeriod"
-              type="text"
+              type="number"
               value={values.warrantyPeriod}
               onBlur={(e) => {
                 manageBlur("warrantyPeriod");
@@ -436,8 +463,8 @@ const AddProduct = () => {
               onChange={handleChange}
               isFocused={isFocusStates.isArchived}
               options={[
-                { value: "true", label: "Yes" },
-                { value: "false", label: "No" },
+                { value: true, label: "Yes" },
+                { value: false, label: "No" },
               ]}
               error={touched.isArchived && errors.isArchived}
               errorMessage={errors.isArchived}
@@ -460,8 +487,8 @@ const AddProduct = () => {
               onChange={handleChange}
               isFocused={isFocusStates.isFeatured}
               options={[
-                { value: "true", label: "Yes" },
-                { value: "false", label: "No" },
+                { value: true, label: "Yes" },
+                { value: false, label: "No" },
               ]}
               error={touched.isFeatured && errors.isFeatured}
               errorMessage={errors.isFeatured}
@@ -484,8 +511,8 @@ const AddProduct = () => {
               onChange={handleChange}
               isFocused={isFocusStates.assemblyRequired}
               options={[
-                { value: "true", label: "Yes" },
-                { value: "false", label: "No" },
+                { value: true, label: "Yes" },
+                { value: false, label: "No" },
               ]}
               error={touched.assemblyRequired && errors.assemblyRequired}
               errorMessage={errors.assemblyRequired}

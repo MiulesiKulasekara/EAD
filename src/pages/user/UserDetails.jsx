@@ -1,5 +1,5 @@
 import { Row, Col, Card } from "react-bootstrap";
-import { UserStatusEnum } from "../../enums/Enum";
+import { UserStatusEnum, UserRoleEnum } from "../../enums/Enum";
 import {
   ActiveStatus,
   InactiveStatus,
@@ -12,7 +12,12 @@ function UserDetails({ user }) {
       <Card.Body>
         <Row>
           <Col>
-            <h2>{user.name}</h2>
+            <h2>
+              {user?.role !== UserRoleEnum.ADMIN &&
+              user?.role !== UserRoleEnum.CSR
+                ? user.companyName
+                : `${user.firstName} ${user.lastName}`}
+            </h2>
           </Col>
         </Row>
         <Row>
@@ -22,9 +27,15 @@ function UserDetails({ user }) {
           </Col>
           <Col md={4}>
             <h5>Role</h5>
-            <p>{user.role}</p>
+            <p>
+              {user?.role === UserRoleEnum.ADMIN
+                ? "ADMIN"
+                : user?.role === UserRoleEnum.VENDOR
+                ? "VENDOR"
+                : "CSR"}
+            </p>
           </Col>
-          <Col md={1}>
+          <Col md={2}>
             <h5>Status</h5>
             <p>
               {user.status === UserStatusEnum.ACTIVE && <ActiveStatus />}
@@ -32,6 +43,14 @@ function UserDetails({ user }) {
               {user.status === UserStatusEnum.PENDING && <PendingStatus />}
             </p>
           </Col>
+        </Row>
+        <Row>
+          {user?.role === UserRoleEnum.VENDOR ? (
+            <Col>
+              <h5 className="mt-2">Description</h5>
+              <p>{user.description}</p>
+            </Col>
+          ) : null}
         </Row>
       </Card.Body>
     </Card>

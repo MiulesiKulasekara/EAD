@@ -80,7 +80,7 @@ export const productListvalidationSchema = Yup.object().shape({
 
 export const updateproductListvalidationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
-  vendorId: Yup.string().required("Vendor is required"),
+  //vendorId: Yup.string().required("Vendor is required"),
   // isActive: Yup.string().required("Status is required"),
 });
 

@@ -40,43 +40,95 @@ import MultiColorPickerExample from "./pages/Test/MultiColorPickerExample";
 import StarRating from "./componets/StarRating";
 
 import "./css/styles.css";
+// import { useCookies } from "react-cookie";
+// import { useGetUserByIdQuery } from "./core/services/user/user";
+
+//Protected route
+import ProtectedRoute from "./layouts/ProtectedRoute";
+
+import { UserRoleEnum } from "./enums/Enum";
 
 function App() {
+  // const [cookies] = useCookies(["USER_ID"]);
+  // const userId = cookies.USER_ID || "";
+  // const { data } = useGetUserByIdQuery({ userId: userId });
+  //console.log("Role :", data?.role);
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AdminSignin />}></Route>
-        <Route path="/admin/signup" element={<AdminSignup />}></Route>
+        {/* <Route path="/admin/signup" element={<AdminSignup />}></Route> */}
 
-        {/* Test */}
-        <Route path="/test" element={<StarRating />}></Route>
+        <Route
+          element={
+            <ProtectedRoute
+              allowedRoles={[
+                UserRoleEnum.ADMIN,
+                UserRoleEnum.CSR,
+                UserRoleEnum.VENDOR,
+              ]}
+            />
+          }
+        >
+          <Route path="/admin" element={<FullLayout />}>
+            <Route index element={<Dashboard />} />
 
-        <Route path="/admin" element={<FullLayout />}>
-          <Route index element={<Dashboard />} />
+            {/* ******************************************************************************************** */}
+            {/* user management */}
+            <Route
+              element={<ProtectedRoute allowedRoles={[UserRoleEnum.ADMIN, UserRoleEnum.CSR]}/>}>
+              <Route path="users" element={<UserList />}></Route>
+              <Route path="users/roles" element={<SelectRoles />}></Route>
+              <Route path="users/update/:id" element={<UpdateUser />}></Route>
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={[UserRoleEnum.ADMIN]} />}>
+              <Route path="users/add" element={<AddUser />}></Route>
+            </Route>
+            {/* ******************************************************************************************** */}
 
-          {/* user management */}
-          <Route path="users" element={<UserList />}></Route>
-          <Route path="users/roles" element={<SelectRoles />}></Route>
-          <Route path="users/add" element={<AddUser />}></Route>
-          <Route path="users/update/:id" element={<UpdateUser />}></Route>
+            {/* ******************************************************************************************** */}
+            {/* product list management */}
+            <Route element={<ProtectedRoute allowedRoles={[UserRoleEnum.ADMIN,UserRoleEnum.CSR,UserRoleEnum.VENDOR]} />}>
+            <Route path="product/list" element={<AllProductList />}></Route>
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={[UserRoleEnum.VENDOR]} />}>
+            <Route path="product/list/add" element={<AddProductList />}></Route>
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={[UserRoleEnum.ADMIN,UserRoleEnum.VENDOR]} />}>
+            <Route path="product/list/update/:id" element={<UpdateProductList />}></Route>
+            </Route>
+            {/* ******************************************************************************************** */}
 
-          {/* product list management */}
-          <Route path="product/list" element={<AllProductList />}></Route>
-          <Route path="product/list/add" element={<AddProductList />}></Route>
-          <Route path="product/list/update/:id" element={<UpdateProductList />}></Route>
+            {/* ******************************************************************************************** */}
+            {/* product management */}
+            <Route element={<ProtectedRoute allowedRoles={[UserRoleEnum.ADMIN,UserRoleEnum.CSR,UserRoleEnum.VENDOR]} />}>
+            <Route path="product" element={<ProductList />}></Route>
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={[UserRoleEnum.VENDOR]} />}>
+            <Route path="product/add" element={<AddProduct />}></Route>
+            </Route>
+            <Route element={<ProtectedRoute allowedRoles={[UserRoleEnum.VENDOR]} />}>
+            <Route path="product/update/:id" element={<UpdateProduct />}></Route>
+            </Route>
+            {/* ******************************************************************************************** */}
 
-          {/* product management */}
-          <Route path="product" element={<ProductList />}></Route>
-          <Route path="product/add" element={<AddProduct />}></Route>
-          <Route path="product/update/:id" element={<UpdateProduct />}></Route>
+            {/* order management */}
+            {/* ******************************************************************************************** */}
+            <Route element={<ProtectedRoute allowedRoles={[UserRoleEnum.ADMIN,UserRoleEnum.CSR,UserRoleEnum.VENDOR]} />}>
+            <Route path="order" element={<OrderList />}></Route>
+            </Route>
+            <Route path="order/update/:id" element={<UpdateOrder />}></Route>
+            {/* ******************************************************************************************** */}
 
-          {/* order management */}
-          <Route path="order" element={<OrderList />}></Route>
-          <Route path="order/update/:id" element={<UpdateOrder />}></Route>
-
-          {/* vendor ratings management */}
-          <Route path="vendor/ratings" element={<VendorRatingsList />}></Route>
-
+            {/* vendor ratings management */}
+            {/* ******************************************************************************************** */}
+            <Route
+              path="vendor/ratings"
+              element={<VendorRatingsList />}
+            ></Route>
+            {/* ******************************************************************************************** */}
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

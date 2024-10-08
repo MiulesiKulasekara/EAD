@@ -5,29 +5,53 @@ import { Form, Row, Col } from "react-bootstrap";
 import { updateproductListvalidationSchema } from "../../schema/ValidationSchema";
 import FormInput from "../../componets/FormInput";
 import FormButton from "../../componets/FormButton";
+import { useCookies } from "react-cookie";
+import { useGetUserByIdQuery } from "../../core/services/user/user";
+import {
+  useUpdateProductListingMutation,
+  useGetProductListingByIdQuery,
+  useDeleteProductListingMutation,
+} from "../../core/services/productListing/productListing";
+import { UserRoleEnum } from "../../enums/Enum";
 
 export const UpdateProductList = () => {
+  const [cookies] = useCookies(["USER_ID"]);
+  const userId = cookies.USER_ID || "";
+  const { data: userData } = useGetUserByIdQuery({ userId: userId });
+
   const { id } = useParams();
+  const productListingId = id;
+
+  const [updateProductList, { isLoading, isError, isSuccess }] =
+    useUpdateProductListingMutation();
+  const { data: productListData } = useGetProductListingByIdQuery({
+    productListingId,
+  });
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
-        name: "",
-        description: "",
-        vendorId: "",
-        isActive: "",
+        name: productListData?.name || "",
+        description: productListData?.description || "",
+        vendorId: productListData?.vendorId || "",
+        isActive: false,
       },
 
       validationSchema: updateproductListvalidationSchema,
 
       onSubmit: async (values) => {
         try {
-          console.log(values);
-          //resetForm();
+          const respone = await updateProductList({
+            productListingId: productListingId,
+            body: values,
+          }).unwrap();
+          console.log(respone);
         } catch (error) {
           console.log(error);
         }
       },
+
+      enableReinitialize: true,
     });
 
   //input focus
@@ -72,54 +96,56 @@ export const UpdateProductList = () => {
             />
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <FormInput
-              id="isActive"
-              label="Status"
-              name="isActive"
-              type="select"
-              value={values.isActive}
-              onBlur={(e) => {
-                manageBlur("isActive");
-                handleBlur(e);
-              }}
-              onFocus={() => {
-                handleFocus("isActive");
-              }}
-              onChange={handleChange}
-              isFocused={isFocusStates.isActive}
-              options={[
-                { value: "true", label: "Active" },
-                { value: "false", label: "Deactive" },
-              ]}
-              error={touched.isActive && errors.isActive}
-              errorMessage={errors.isActive}
-            />
-          </Col>
+        {userData && userData?.role !== UserRoleEnum.VENDOR ? (
+          <Row>
+            <Col>
+              <FormInput
+                id="isActive"
+                label="Status"
+                name="isActive"
+                type="select"
+                value={values.isActive}
+                onBlur={(e) => {
+                  manageBlur("isActive");
+                  handleBlur(e);
+                }}
+                onFocus={() => {
+                  handleFocus("isActive");
+                }}
+                onChange={handleChange}
+                isFocused={isFocusStates.isActive}
+                options={[
+                  { value: true, label: "Active" },
+                  { value: false, label: "Deactive" },
+                ]}
+                error={touched.isActive && errors.isActive}
+                errorMessage={errors.isActive}
+              />
+            </Col>
 
-          <Col>
-            <FormInput
-              label="Verdor"
-              id="vendorId"
-              name="vendorId"
-              type="vendorId"
-              value={values.vendorId}
-              onBlur={(e) => {
-                manageBlur("vendorId");
-                handleBlur(e);
-              }}
-              onFocus={() => {
-                handleFocus("vendorId");
-              }}
-              onChange={handleChange}
-              isFocused={isFocusStates.vendorId}
-              placeholder="Enter Vendor"
-              error={touched.vendorId && errors.vendorId}
-              errorMessage={errors.vendorId}
-            />
-          </Col>
-        </Row>
+            <Col>
+              <FormInput
+                label="Verdor"
+                id="vendorId"
+                name="vendorId"
+                type="vendorId"
+                value={values.vendorId}
+                onBlur={(e) => {
+                  manageBlur("vendorId");
+                  handleBlur(e);
+                }}
+                onFocus={() => {
+                  handleFocus("vendorId");
+                }}
+                onChange={handleChange}
+                isFocused={isFocusStates.vendorId}
+                placeholder="Enter Vendor"
+                error={touched.vendorId && errors.vendorId}
+                errorMessage={errors.vendorId}
+              />
+            </Col>
+          </Row>
+        ) : null}
         <Row>
           <Col>
             <FormInput
@@ -146,6 +172,9 @@ export const UpdateProductList = () => {
         </Row>
         <FormButton className="mt-2" text="Update Product List" type="submit" />
       </Form>
+      {isLoading && <p>Updating product list...</p>}
+      {isError && <p>Error updating product list</p>}
+      {isSuccess && <p>Product list updated successfully!</p>}
     </div>
   );
 };

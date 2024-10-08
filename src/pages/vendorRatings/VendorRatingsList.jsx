@@ -39,8 +39,8 @@ const VendorRatingsList = () => {
             <thead>
               <tr>
                 <th>No.</th>
-                <th>Customer Id</th>
-                <th>Vendor Id</th>
+                <th>Customer</th>
+                <th>Vendor</th>
                 <th>Rating</th>
                 <th>Comment</th>
                 <th>View</th>

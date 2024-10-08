@@ -5,9 +5,17 @@ import {
   InactiveStatus,
   PendingStatus,
 } from "../../componets/UserStatus";
-import productImg from "../../assets/images/product/defaultimg.jpg"
+import productImg from "../../assets/images/product/default.jpeg";
+import {
+  useGetUserProductsQuery,
+  useUpdateProductMutation,
+} from "../../core/services/product/product";
 
 function ProductDetails({ product }) {
+
+  //const { data: user } = useGetUserByIdQuery({ userId: userId });
+
+
   return (
     <Card className="mt-2">
       <Card.Body>
@@ -15,8 +23,8 @@ function ProductDetails({ product }) {
           <Col
             md={5}
             style={{
-              backgroundImage: `url(${productImg})`, 
-              backgroundSize: "cover", 
+              backgroundImage: `url(${productImg})`,
+              backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
               height: "100%",
@@ -32,7 +40,7 @@ function ProductDetails({ product }) {
               className="d-flex"
               style={{ fontSize: "13px", fontWeight: "400" }}
             >
-              <div className="me-2">{/*{product.listingId}*/}Table</div>
+              <div className="me-2">Living Room Furniture - </div>
               <div>{product.category}</div>
             </div>
 
@@ -40,11 +48,7 @@ function ProductDetails({ product }) {
               {product.price} LKR
             </p>
 
-            <p>
-              {product.description}A sturdy wooden coffee table with a natural
-              finish. A sturdy wooden coffee table with a natural finish. A
-              sturdy wooden coffee table with a natural finish.
-            </p>
+            <p>{product.description}</p>
 
             <div className="d-flex">
               <p style={{ fontWeight: "500" }} className="me-2">
@@ -60,12 +64,12 @@ function ProductDetails({ product }) {
               <p>{product.material}</p>
             </div>
 
-            <div className="d-flex">
+            {/* <div className="d-flex">
               <p style={{ fontWeight: "500" }} className="me-2">
                 Vendor:
               </p>
               <p>{product.vendorId}</p>
-            </div>
+            </div> */}
 
             <div className="d-flex">
               <p style={{ fontWeight: "500" }} className="me-2">

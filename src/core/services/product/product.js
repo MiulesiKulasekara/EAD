@@ -55,5 +55,24 @@ export const productApi = createApi({
       providesTags: ["Product"],
       transformResponse: (response) => response?.data,
     }),
+
+    getProductsById: builder.query({
+      query: ({ productId }) => ({
+        url: `/product/${productId}`,
+        method: "GET",
+      }),
+
+      transformResponse: (response) => response?.data,
+  }),
   }),
 });
+
+export const {
+  useGetUserProductsQuery,
+  useGetAllProductsQuery,
+  useGetProductsByIdQuery, 
+  useCreateProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
+} = productApi;
+

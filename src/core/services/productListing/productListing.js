@@ -54,12 +54,22 @@ export const productListingApi = createApi({
       invalidatesTags: ["ProductListing"],
       transformResponse: (response) => response?.data,
     }),
+
+    getProductListingById: builder.query({
+      query: ({ productListingId }) => ({
+        url: `/productListing/${productListingId}`,
+        method: "GET",
+      }),
+
+      transformResponse: (response) => response?.data,
+    }),
   }),
 });
 
 export const {
   useGetUserProductListingsQuery,
   useGetAllProductListingsQuery,
+  useGetProductListingByIdQuery,
   useUpdateProductListingMutation,
   useCreateProductListingMutation,
   useDeleteProductListingMutation,

@@ -22,9 +22,44 @@ export const userApi = createApi({
         method: "GET",
       }),
 
+      transformResponse: (response) => response?.data,
+    }),
+
+    getAllUsers: builder.query({
+      query: () => ({
+        url: `/user`,
+        method: "GET",
+      }),
+
+      providesTags: ["User"],
+      transformResponse: (response) => response?.data,
+    }),
+
+    updateUser: builder.mutation({
+      query: ({ userId, body }) => ({
+        url: `/user/${userId}`,
+        method: "PATCH",
+        body: body,
+      }),
+      invalidatesTags: ["User"],
+      transformResponse: (response) => response,
+    }),
+
+    deleteUser: builder.mutation({
+      query: ({ userId }) => ({
+        url: `/user/${userId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["User"],
       transformResponse: (response) => response,
     }),
   }),
 });
 
-export const { useCreateUserMutation, useGetUserByIdQuery } = userApi;
+export const {
+  useCreateUserMutation,
+  useGetUserByIdQuery,
+  useGetAllUsersQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} = userApi;

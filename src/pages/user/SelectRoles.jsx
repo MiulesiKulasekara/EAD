@@ -24,11 +24,11 @@ const roles = [
     imageUrl: user2,
     roleNum: UserRoleEnum.VENDOR,
   },
-  {
-    title: "Customer",
-    imageUrl: user1,
-    roleNum: UserRoleEnum.CUSTOMER,
-  },
+  // {
+  //   title: "Customer",
+  //   imageUrl: user1,
+  //   roleNum: UserRoleEnum.CUSTOMER,
+  // },
 ];
 
 const SelectRoles = () => {
@@ -55,7 +55,7 @@ const SelectRoles = () => {
         style={{ paddingLeft: "40px", marginTop: "100px" }}
       >
         {roles.map((role, index) => (
-          <Col key={index} sm={12} md={6} lg={3} className="mb-4">
+          <Col key={index} className="mb-4">
             <Card
               className="h-100 text-center"
               style={focusedRole === role.roleNum ? focusedStyle : {}}

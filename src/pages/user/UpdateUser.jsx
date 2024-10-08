@@ -1,54 +1,70 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { Form, Row, Col } from "react-bootstrap";
 import { uservalidationSchema } from "../../schema/ValidationSchema";
 import FormInput from "../../componets/FormInput";
 import FormButton from "../../componets/FormButton";
-import { UserStatusEnum } from "../../enums/Enum";
-import { useParams } from "react-router-dom";
+import { UserStatusEnum, UserRoleEnum } from "../../enums/Enum";
+import {
+  useUpdateUserMutation,
+  useGetUserByIdQuery,
+} from "../../core/services/user/user";
 
-const UpdateUser = () => {
-  const { id } = useParams();
+const UpdateUser = ({ user }) => {
+  const userId = user.id;
 
-  var roleNum = 1;
+  const navigate = useNavigate();
+
+  const [updateUser, { isLoading, isError, isSuccess }] =
+    useUpdateUserMutation();
+
+  const { data: userData } = useGetUserByIdQuery({ userId });
 
   var userRole = "a User";
 
-  if (roleNum === 1) {
+  if (user.role === UserRoleEnum.CUSTOMER) {
     userRole = "a Customer";
-  } else if (roleNum === 2) {
+  } else if (user.role === UserRoleEnum.VENDOR) {
     userRole = "a Vender";
-  } else if (roleNum === 3) {
+  } else if (user.role === UserRoleEnum.ADMIN) {
     userRole = "an Admin";
-  } else {
+  } else if (user.role === UserRoleEnum.CSR) {
     userRole = "a CSR";
+  } else {
+    var userRole = "a User";
   }
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: {
-        firstName: "",
-        lastName: "",
-        companyName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        role: "",
-        status: "",
-      },
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    //resetForm,
+  } = useFormik({
+    initialValues: {
+      status: userData?.status,
+    },
 
-      validationSchema: uservalidationSchema,
+    //validationSchema: uservalidationSchema,
 
-      onSubmit: async (values) => {
-        try {
-          console.log(values);
-          //resetForm();
-        } catch (error) {
-          console.log(error);
-        }
-      },
-    });
+    onSubmit: async (values) => {
+      const payload = { status: Number(values.status) };
+      try {
+        const response = await updateUser({
+          userId: userId,
+          body: payload,
+        }).unwrap();
+        navigate("/admin/users")
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    enableReinitialize: true,
+  });
 
   //input focus
   const [isFocusStates, setIsFocusStates] = useState({
@@ -66,175 +82,58 @@ const UpdateUser = () => {
 
   return (
     <div className="p-4">
-      <h3 className="mb-4">{`Update ${userRole}`}</h3>
+      <h3 className="mb-4">{`Update ${userRole} Status`}</h3>
+      {user.role === UserRoleEnum.VENDOR ? (
+        <p
+          className="mb-4"
+          style={{ color: "red" }}
+        >{`You are updating ${user.companyName} - ${userRole}`}</p>
+      ) : (
+        <p
+          className="mb-4"
+          style={{ color: "red" }}
+        >{`You are updating ${user.firstName} ${user.lastName} - ${userRole}`}</p>
+      )}
+
       <Form onSubmit={handleSubmit}>
-        {(roleNum === 1 || roleNum === 3 || roleNum === 4) && (
-          <Row>
-            <Col>
-              <FormInput
-                label="First Name"
-                id="firstName"
-                name="firstName"
-                type="text"
-                value={values.firstName}
-                onBlur={(e) => {
-                  manageBlur("firstName");
-                  handleBlur(e);
-                }}
-                onFocus={() => {
-                  handleFocus("firstName");
-                }}
-                onChange={handleChange}
-                isFocused={isFocusStates.firstName}
-                placeholder="Enter First Name"
-                error={touched.firstName && errors.firstName}
-                errorMessage={errors.firstName}
-              />
-            </Col>
-            <Col>
-              <FormInput
-                label="Last Name"
-                id="lastName"
-                name="lastName"
-                type="text"
-                value={values.lastName}
-                onBlur={(e) => {
-                  manageBlur("lastName");
-                  handleBlur(e);
-                }}
-                onFocus={() => {
-                  handleFocus("lastName");
-                }}
-                onChange={handleChange}
-                isFocused={isFocusStates.lastName}
-                placeholder="Enter Last Name"
-                error={touched.lastName && errors.lastName}
-                errorMessage={errors.lastName}
-              />
-            </Col>
-          </Row>
-        )}
-
-        {/* Conditionally display Company Name if roleNum is 2 */}
-        {roleNum === 2 && (
-          <FormInput
-            label="Company Name"
-            id="companyName"
-            name="companyName"
-            type="text"
-            value={values.companyName}
-            onBlur={(e) => {
-              manageBlur("companyName");
-              handleBlur(e);
-            }}
-            onFocus={() => {
-              handleFocus("companyName");
-            }}
-            onChange={handleChange}
-            isFocused={isFocusStates.companyName}
-            placeholder="Enter Company Name"
-            error={touched.companyName && errors.companyName}
-            errorMessage={errors.companyName}
-          />
-        )}
-
-        {/* Email (always displayed) */}
-        <FormInput
-          label="Email address"
-          id="email"
-          name="email"
-          type="email"
-          value={values.email}
-          onBlur={(e) => {
-            manageBlur("email");
-            handleBlur(e);
-          }}
-          onFocus={() => {
-            handleFocus("email");
-          }}
-          onChange={handleChange}
-          isFocused={isFocusStates.email}
-          placeholder="Enter email"
-          error={touched.email && errors.email}
-          errorMessage={errors.email}
-        />
-
-        {/* Password and Confirm Password (always displayed) */}
-        <Row className="mt-3">
+        <Row>
           <Col>
             <FormInput
-              label="Password"
-              id="password"
-              name="password"
-              type="password"
-              value={values.password}
+              id="status"
+              label="Status"
+              name="status"
+              type="select"
+              value={values.status}
               onBlur={(e) => {
-                manageBlur("password");
+                manageBlur("status");
                 handleBlur(e);
               }}
               onFocus={() => {
-                handleFocus("password");
+                handleFocus("status");
               }}
               onChange={handleChange}
-              isFocused={isFocusStates.password}
-              placeholder="Enter password"
-              error={touched.password && errors.password}
-              errorMessage={errors.password}
-            />
-          </Col>
-          <Col>
-            <FormInput
-              label="Confirm Password"
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              value={values.confirmPassword}
-              onBlur={(e) => {
-                manageBlur("confirmPassword");
-                handleBlur(e);
-              }}
-              onFocus={() => {
-                handleFocus("confirmPassword");
-              }}
-              onChange={handleChange}
-              isFocused={isFocusStates.confirmPassword}
-              placeholder="Enter password again"
-              error={touched.confirmPassword && errors.confirmPassword}
-              errorMessage={errors.confirmPassword}
+              isFocused={isFocusStates.status}
+              options={[
+                { value: UserStatusEnum.PENDING, label: "Pending" },
+                { value: UserStatusEnum.ACTIVE, label: "Active" },
+                { value: UserStatusEnum.INACTIVE, label: "Inactive" },
+              ]}
+              error={touched.status && errors.status}
+              errorMessage={errors.status}
             />
           </Col>
         </Row>
 
-        {/* Conditionally display Company Name if roleNum is 2 */}
-        {roleNum === 2 && (
-          <FormInput
-            label="Description"
-            id="description"
-            name="description"
-            type="textarea"
-            value={values.description}
-            onBlur={(e) => {
-              manageBlur("description");
-              handleBlur(e);
-            }}
-            onFocus={() => {
-              handleFocus("description");
-            }}
-            onChange={handleChange}
-            isFocused={isFocusStates.description}
-            placeholder="Enter Description"
-            rows={5}
-            error={touched.description && errors.description}
-            errorMessage={errors.companyName}
-          />
-        )}
-
         <FormButton
-          className="mt-2"
+          className="mt-2 mb-4"
           text={`Update ${userRole}`}
           type="submit"
         />
       </Form>
+
+      {isLoading && <p>Updating user...</p>}
+      {isError && <p>Error updating user</p>}
+      {isSuccess && <span style={{color:"green"}}>User updated successfully!</span>}
     </div>
   );
 };

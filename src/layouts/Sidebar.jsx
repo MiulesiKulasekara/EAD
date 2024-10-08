@@ -1,9 +1,16 @@
 import { Nav, NavItem, NavbarBrand } from "reactstrap";
 import { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
+import { useGetUserByIdQuery } from "../core/services/user/user";
+import { useCookies } from "react-cookie";
+import { UserRoleEnum } from "../enums/Enum";
 
 const Sidebar = () => {
   const { id } = useParams();
+
+  const [cookies] = useCookies(["USER_ID"]);
+  const userId = cookies.USER_ID || "";
+  const { data } = useGetUserByIdQuery({ userId: userId });
 
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
@@ -50,9 +57,7 @@ const Sidebar = () => {
       ) {
         setActiveItem("order");
       }
-      if (
-        location.pathname === "/admin/vendor/ratings"
-      ) {
+      if (location.pathname === "/admin/vendor/ratings") {
         setActiveItem("vendorRatings");
       }
     };
@@ -85,26 +90,28 @@ const Sidebar = () => {
             </Link>
           </NavItem>
 
-          <NavItem
-            className={`cursor-pointer ${
-              activeItem === "users"
-                ? "sidenav-bg mb-4 sidebar-item-bg"
-                : "sidenav-bg mb-4"
-            }`}
-          >
-            <Link
-              to={"/admin/users"}
-              className={`cursor-pointer p-2 d-flex align-items-center text-decoration-none ${
+          {data?.role !== UserRoleEnum.VENDOR && (
+            <NavItem
+              className={`cursor-pointer ${
                 activeItem === "users"
-                  ? "side-bar-item-txt"
-                  : "side-bar-item-txt-none"
+                  ? "sidenav-bg mb-4 sidebar-item-bg"
+                  : "sidenav-bg mb-4"
               }`}
-              onClick={() => handleItemClick("users")}
             >
-              <i className="bi bi-people ms-4"></i>
-              <span className="ms-3 d-inline-block">Users</span>
-            </Link>
-          </NavItem>
+              <Link
+                to={"/admin/users"}
+                className={`cursor-pointer p-2 d-flex align-items-center text-decoration-none ${
+                  activeItem === "users"
+                    ? "side-bar-item-txt"
+                    : "side-bar-item-txt-none"
+                }`}
+                onClick={() => handleItemClick("users")}
+              >
+                <i className="bi bi-people ms-4"></i>
+                <span className="ms-3 d-inline-block">Users</span>
+              </Link>
+            </NavItem>
+          )}
 
           <NavItem
             className={`cursor-pointer ${

@@ -4,32 +4,43 @@ import { Form, Row, Col } from "react-bootstrap";
 import { productvalidationSchema } from "../../schema/ValidationSchema";
 import FormInput from "../../componets/FormInput";
 import FormButton from "../../componets/FormButton";
-import { productList, furnitureCategories } from "../Test/Data";
+import { furnitureCategories } from "../Test/Data";
+import { useParams } from "react-router-dom";
+import {
+  useGetProductsByIdQuery,
+  useUpdateProductMutation,
+} from "../../core/services/product/product";
 
 const UpdateProduct = () => {
+  const { id } = useParams();
+  const productId = id;
+
+  const { data: productData } = useGetProductsByIdQuery({ productId });
+  const [updateProductById] = useUpdateProductMutation();
+
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
-        name: "",
-        description: "",
-        price: "",
-        category: "",
-        vendorId: "",
-        isArchived: true,
-        stockQuantity: "",
+        name: productData?.name || "",
+        description: productData?.description || "",
+        price: productData?.price || "",
+        category: productData?.category || "",
+        vendorId: productData?.vendorId || "",
+        stockQuantity: productData?.stockQuantity || 0,
         dimensions: {
-          width: 0,
-          height: 0,
-          depth: 0,
+          width: productData?.width || 0,
+          height: productData?.height || 0,
+          depth: productData?.depth || 0,
         },
-        material: "",
-        colorOptions: [""],
-        weight: 0,
-        assemblyRequired: true,
-        productImages: [""],
-        warrantyPeriod: 0,
-        isFeatured: true,
-        listingId: "",
+        material: productData?.material || "",
+        colorOptions: productData?.colorOptions || "",
+        weight: productData?.weight || 0,
+        assemblyRequired: productData?.assemblyRequired || false,
+        productImages: productData?.productImages || "",
+        warrantyPeriod: productData?.warrantyPeriod || 0,
+        isFeatured: productData?.isFeatured || false,
+        listingId: productData?.listingId || "",
+        isArchived: productData?.isArchived || false,
       },
 
       validationSchema: productvalidationSchema,
@@ -37,11 +48,14 @@ const UpdateProduct = () => {
       onSubmit: async (values) => {
         try {
           console.log(values);
+          if (productId)
+            await updateProductById({ productId: productId, body: values });
           //resetForm();
         } catch (error) {
           console.log(error);
         }
       },
+      enableReinitialize: true,
     });
 
   //input focus
@@ -66,6 +80,7 @@ const UpdateProduct = () => {
     warrantyPeriod: false,
     isFeatured: false,
     listingId: false,
+    isArchived:false,
   });
 
   const handleFocus = (field, isNested = false) => {
@@ -105,7 +120,7 @@ const UpdateProduct = () => {
 
   return (
     <div className="p-4">
-      <h3 className="mb-4">Update Product</h3>
+      <h3 className="mb-4">Update Product - {productData.name}</h3>
       <Form onSubmit={handleSubmit}>
         <Row>
           <Col>
@@ -436,8 +451,8 @@ const UpdateProduct = () => {
               onChange={handleChange}
               isFocused={isFocusStates.isArchived}
               options={[
-                { value: "true", label: "Yes" },
-                { value: "false", label: "No" },
+                { value: true, label: "Yes" },
+                { value: false, label: "No" },
               ]}
               error={touched.isArchived && errors.isArchived}
               errorMessage={errors.isArchived}
@@ -460,8 +475,8 @@ const UpdateProduct = () => {
               onChange={handleChange}
               isFocused={isFocusStates.isFeatured}
               options={[
-                { value: "true", label: "Yes" },
-                { value: "false", label: "No" },
+                { value: true, label: "Yes" },
+                { value: false, label: "No" },
               ]}
               error={touched.isFeatured && errors.isFeatured}
               errorMessage={errors.isFeatured}
@@ -484,8 +499,8 @@ const UpdateProduct = () => {
               onChange={handleChange}
               isFocused={isFocusStates.assemblyRequired}
               options={[
-                { value: "true", label: "Yes" },
-                { value: "false", label: "No" },
+                { value: true, label: "Yes" },
+                { value: false, label: "No" },
               ]}
               error={touched.assemblyRequired && errors.assemblyRequired}
               errorMessage={errors.assemblyRequired}

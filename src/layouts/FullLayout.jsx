@@ -6,9 +6,9 @@ import { useGetUserByIdQuery } from "../core/services/user/user";
 import { useCookies } from "react-cookie";
 
 const FullLayout = () => {
-  const [cookies] = useCookies(["USER_ID"]);
-  const userId = cookies.USER_ID || "";
-  const { data } = useGetUserByIdQuery({ userId: userId });
+  // const [cookies] = useCookies(["USER_ID"]);
+  // const userId = cookies.USER_ID || "";
+  // const { data } = useGetUserByIdQuery({ userId: userId });
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
